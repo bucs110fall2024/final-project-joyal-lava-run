@@ -12,7 +12,10 @@ Joyal Paul
 
 ## Project Description
 
-There is a player that starts off at the bottom of a volcano. The objective is to get to the top and escape the volcano before the magma rises and kills the player. There are obstacles on each level of the volcano, like monsters, falling or cracking steps, and dripping lava that hurts and slows down the player. Some of the steps can drop you to lower levels and some can kill you due to fall damage. The player must escape in limited time and make a final jump to the helicopter to be rescued. If the player doesn't make it up in time, the player loses. I might add levels with faster times and more obstacles to let the player pick a difficulty level. 
+There is a player that starts off at the bottom of a volcano. The objective is to get to the top and escape the volcano before the magma rises and kills the player. 
+There are obstacles on each level of the volcano, like monsters, falling or cracking steps, and dripping lava that hurts and slows down the player. 
+Some of the steps can drop you to lower levels and some can kill you due to fall damage. The player must escape in limited time and make a final jump to the helicopter to be rescued. 
+If the player doesn't make it up in time, the player loses. I might add levels with faster times and more obstacles to let the player pick a difficulty level. 
 
 ***    
 
@@ -20,7 +23,7 @@ There is a player that starts off at the bottom of a volcano. The objective is t
 
 ### Initial Design
 
-![initial gui](assets/gui.jpg)
+![initial gui](gui-1.jpg)
 
 ### Final Design
 
