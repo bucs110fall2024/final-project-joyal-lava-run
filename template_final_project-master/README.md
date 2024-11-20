@@ -41,7 +41,8 @@ If the player doesn't make it up in time, the player loses. I might add levels w
 
 ### Classes
 
-- << You should have a list of each of your classes with a description >>
+- Player - creates a player object thats able to move around, jump, and block
+- Enemies - creates an enemy or multiple enemy objects that are able to move back and forth, face the player, and shoot bullets
 
 ## ATP
 
