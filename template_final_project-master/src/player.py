@@ -1,5 +1,8 @@
-class Player:
-    def __init__(self, x, y, img_file):
+import pygame
+
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
         '''
         Initializes player object
         args:
@@ -7,11 +10,10 @@ class Player:
          - y: int - starting y coordintate
          - img: str - path to img file of player
         '''
-        
-        # self.not_jumping = True
-        # self.x = x
-        # self.y = y
-        # self.img = img_file
+        super().__init__()
+        self.image = pygame.image.load("assets/water_girl.png")   # Puts image on screen (dont reuse variable names)
+        self.rect = self.image.get_rect()
+        self.rect.center = [100, 400]          # Centers it at (100, 600)
         
     def move_right(self):
         '''
@@ -19,23 +21,26 @@ class Player:
         args: None
         return: None
         '''
-        pass
+        self.rect.x += 10
     
     def move_left(self):
+        self.rect.x -= 10
         '''
-        Moves right when right arrow key is pressed until let go
+        Moves left when left arrow key is pressed until let go
         args: None
         return: None
         '''
-        pass
     
     def jumping(self):
+        self.rect.y -= 10
         '''
         Moves up 1 when space or up arrow key is pressed
         args: None
         return: None
         '''
-        pass
+    
+    def not_jumping(self):
+        self.rect.y += 10
     
     def block(self):        # Hypothetical
         '''
@@ -43,4 +48,4 @@ class Player:
         args: None
         return: None
         '''
-    
+        pass

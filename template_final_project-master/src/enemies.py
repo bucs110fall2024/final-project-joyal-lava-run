@@ -1,8 +1,8 @@
-class Enemies:
+import pygame
+
+
+class Enemies(pygame.sprite.Sprite):
     def __init__(self):
-        self.move = True
-    
-    def __init__(self, x, y, img_file):
         '''
         Initializes enemy object
         args:
@@ -10,11 +10,10 @@ class Enemies:
          - y: int - starting y coordintate
          - img: str - path to img file of enemy
         '''
-        
-        # self.not_jumping = True
-        # self.x = x
-        # self.y = y
-        # self.img = img_file
+        super().__init__()
+        self.image = pygame.image.load("assets/enemies.png")   # Puts image on scree (dont reuse variable names)
+        self.rect = self.image.get_rect()
+        self.rect.center = [700, 300]          
         
     def moving(self):
         '''
