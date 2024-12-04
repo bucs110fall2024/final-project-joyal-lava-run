@@ -17,19 +17,25 @@ class Platforms(pygame.sprite.Sprite):
         self.rect.center = [self.x, self.y]
         
     def return_point_right(self):
+        '''
+        Gets the right midpoint of a plat
+        args: None
+        return: int 
+        '''
         self.right = self.x + 100
-        self.mid_height = self.y + 12.5 
+        self.mid_height = self.y + 3 
         self.my_point = (self.right, self.mid_height)
         return self.my_point
     
     def return_point_left(self):
+        '''
+        Gets the left midpoint of a plat
+        args: None
+        return: int 
+        '''
         self.left = self.x - 100
-        self.mid_height = self.y + 12.5
+        self.mid_height = self.y + 3
         self.my_point = (self.left, self.mid_height)
         return self.my_point
     
-    def return_point_under(self):
-        self.mid_height = self.y + 12.5
-        self.under_pt_left = self.x - 50
-        self.under_pt_right = self.x + 50
-        return (self.under_pt_left, self.mid_height), (self.under_pt_right, self.mid_height)
+  
