@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = [200, 620]          # Centers it at [200, 660]
         self.speed_side = 10
         self.speed_down = 3
+        self.is_bouncing = True
         
     def move_right(self):
         '''
@@ -47,7 +48,7 @@ class Player(pygame.sprite.Sprite):
         args: None
         return: None
         '''
-        self.rect.y -= 50
+        self.rect.y -= 130
     
     def falling(self):
         '''

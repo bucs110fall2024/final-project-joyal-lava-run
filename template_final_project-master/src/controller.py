@@ -48,21 +48,34 @@ class Controller:
         self.plat_list = []
         self.ball_list = []
         self.coll_list = []
+        self.point_list_right = []
+        self.point_list_left = []
+        self.point_list_under = []
         for _ in range(7):
             self.new_plat = Platforms(x = self.x_cord[_], y = self.y_cord)
+            x_cordinate = self.new_plat.return_point_right()
+            y_cordinate = self.new_plat.return_point_left()
+            z_cordinate = self.new_plat.return_point_under()
+            self.point_list_right.append(x_cordinate)
+            self.point_list_left.append(y_cordinate)
+            self.point_list_under.append(z_cordinate)
             self.plat_sprites.add(self.new_plat)
             self.plat_list.append(self.new_plat)
             self.y_cord -= 78
         self.y_cord = 700
+        print(self.point_list_under)
         for _ in range(7):
             self.collision_plat = Collision_Plat(x = self.x_cord[_], y = self.y_cord)
             self.coll_list.append(self.collision_plat)
             self.y_cord -= 78
         self.LAVA_RISE = pygame.USEREVENT +1
+        self.BALL_SHOT = pygame.USEREVENT +2
+        self.COL_COUNTER = pygame.USEREVENT +3
         self.sprites.add(self.lava)                        # Add last
         self.winning = False
         self.loser = False
         self.state = "START"
+
         
     def menu_loop(self):
         menu = pygame_menu.Menu('Lava Run', 400, 300)
@@ -83,6 +96,9 @@ class Controller:
         '''
         self.time_ms = 0
         running = True
+        self.collision = True
+        pygame.time.set_timer(self.LAVA_RISE, 150)
+        pygame.time.set_timer(self.BALL_SHOT, 1500)
         while running: 
             #1. Handle events
             for event in pygame.event.get():
@@ -98,45 +114,54 @@ class Controller:
                         self.player.move_right()
                     elif event.key == pygame.K_a:
                         self.player.move_left()
-                    elif event.key == pygame.K_w:
+                    elif event.key == pygame.K_w and self.collision == True:
                         pygame.key.set_repeat(0)
                         self.player.jumping()
-                    elif event.key == pygame.K_s:
-                        self.player.down()
+                        self.collision = False
+                    #elif event.key == pygame.K_s:           # Might not need
+                        #self.player.down()
                 if not self.player.rect.collidelistall(self.coll_list):
                     self.player.speed_down = 2
                     self.player.falling()
                 elif self.player.rect.collidelistall([plats for plats in self.plat_sprites]):
-                    self.player.speed_side = 1
-                    
-                pygame.time.set_timer(self.LAVA_RISE, 150)
+                    pass
+                                        
                 if event.type == self.LAVA_RISE:
                     self.lava.moving()
-                
-                self.enemy.moving()
-                self.enemy2.moving()
-
-                self.time_ms += 10
-                if self.time_ms % 250 == 0:
+                if event.type == self.BALL_SHOT:
                     self.new_ball = Shoot()
                     self.sprites.add(self.new_ball)
                     self.ball_sprites.add(self.new_ball)
                     self.ball_list.append(self.new_ball)
                     self.ball_sprites.update()
                 
+                self.enemy.moving()
+                self.enemy2.moving()
+                
                 '''Collisions'''
                 for self.iter_plats in self.coll_list:
                     if self.player.rect.colliderect(self.iter_plats):
                         self.player.speed_down = 0
+                        self.collision = True
                 
+                for self.coords in self.point_list_right:
+                    if self.player.rect.collidepoint(self.coords):
+                        self.player.rect.x += 5
+                        
+                for self.coords in self.point_list_left:
+                    if self.player.rect.collidepoint(self.coords):
+                        self.player.rect.x -= 5
                 
+                for self.coords in self.point_list_under:              #FIX THIS !!!!!!!
+                    if self.player.rect.collidepoint(self.coords):
+                        self.player.rect.y += 5
+                        
                 '''Ways to lose'''
-                
                 if self.player.rect.right > 1000 or self.player.rect.left < 0:
                     self.player.kill()
                     self.loser = True
                 
-                if self.player.rect.bottom > 800:
+                if self.player.rect.top < 0:
                     self.player.kill()
                     self.loser = True
                 

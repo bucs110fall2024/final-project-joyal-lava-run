@@ -11,3 +11,5 @@ class Collision_Plat:
         self.y = y - 12.5
         self.rect = pygame.rect.Rect(self.x, self.y, 190, 1)
         self.rect.center = [self.x, self.y]
+        
+    
