@@ -2,6 +2,11 @@ import pygame
 
 class Platforms(pygame.sprite.Sprite):
     def __init__(self, x, y):
+        '''
+        Initializes platform object
+        args: None
+        return: None
+        '''
         super().__init__()
         self.image = pygame.image.load("assets/platform.png")   
         self.image = pygame.transform.scale(self.image, (200, 25))

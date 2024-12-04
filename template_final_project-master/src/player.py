@@ -5,10 +5,8 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         '''
         Initializes player object
-        args:
-         - x: int - starting x coordinte
-         - y: int - starting y coordintate
-         - img: str - path to img file of player
+        args: None
+        return: None
         '''
         super().__init__()
         self.p_jumping = False
@@ -17,45 +15,45 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = [200, 620]          # Centers it at [200, 660]
         self.speed_side = 10
-        self.speed_down = 0.5
+        self.speed_down = 3
         
     def move_right(self):
         '''
-        Moves right when right arrow key is pressed until let go
+        Moves right when "D" is pressed 
         args: None
         return: None
         '''
         self.rect.x += self.speed_side
     
     def move_left(self):
-        self.rect.x -= self.speed_side
         '''
-        Moves left when left arrow key is pressed until let go
+        Moves left when "A" key is pressed 
         args: None
         return: None
         '''
+        self.rect.x -= self.speed_side
     
     def down(self):
+        '''
+        Moves down when "S" key is pressed
+        args: None
+        return: None
+        '''
         self.rect.y += self.speed_side
     
     def jumping(self):
-        self.rect.y -= self.speed_side
         '''
-        Moves up 1 when space or up arrow key is pressed
+        Moves up 1 jump when "W" key is pressed
         args: None
         return: None
         '''
+        self.rect.y -= 50
     
     def falling(self):
-        self.rect.y += self.speed_down
-    
-    def not_jumping(self):
-        self.rect.y += self.speed_side
-    
-    def block(self):        # Hypothetical
         '''
-        Blocks attack when shift key is presed  
+        Makes sure the player is falling
         args: None
         return: None
         '''
-        pass
+        self.rect.y += self.speed_down
+    

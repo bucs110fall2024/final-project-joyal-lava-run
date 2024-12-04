@@ -15,9 +15,11 @@ img_file = "assets/pygame_background.png"
 
 class Controller: 
     def __init__(self):
-        """
-        docstring
-        """
+        '''
+        Initializes controller 
+        args: None
+        return: None
+        '''
         pygame.init()
         pygame.event.pump()
         pygame.display.init()
@@ -30,6 +32,7 @@ class Controller:
         self.background = pygame.transform.scale(self.background, (self.width, self.height))
         self.player = Player()
         self.enemy = Enemies()
+        self.enemy2 = Enemies(y = 195)
         self.lava = Lava()
         self.goku = Goku()
         self.shoot = Shoot()
@@ -37,24 +40,24 @@ class Controller:
         self.winner = Winner()
         self.game_over = GameOver()
         self.sprites = pygame.sprite.Group()
-        self.sprites.add(self.player, self.enemy, self.goku , self.shoot, self.helicopter)
+        self.sprites.add(self.player, self.enemy, self.enemy2, self.goku , self.shoot, self.helicopter)
         self.ball_sprites = pygame.sprite.Group()
         self.plat_sprites = pygame.sprite.Group()
-        self.x_cord = [200, 500, 800, 500, 200, 500, 800, 500, 200, 500]
+        self.x_cord = [200, 500, 800, 400, 100, 500, 800, 500, 200, 500]
         self.y_cord = 700
         self.plat_list = []
         self.ball_list = []
         self.coll_list = []
-        for _ in range(10):
+        for _ in range(7):
             self.new_plat = Platforms(x = self.x_cord[_], y = self.y_cord)
             self.plat_sprites.add(self.new_plat)
             self.plat_list.append(self.new_plat)
-            self.y_cord -= 68
+            self.y_cord -= 78
         self.y_cord = 700
-        for _ in range(10):
+        for _ in range(7):
             self.collision_plat = Collision_Plat(x = self.x_cord[_], y = self.y_cord)
             self.coll_list.append(self.collision_plat)
-            self.y_cord -= 68
+            self.y_cord -= 78
         self.LAVA_RISE = pygame.USEREVENT +1
         self.sprites.add(self.lava)                        # Add last
         self.winning = False
@@ -73,9 +76,11 @@ class Controller:
                         Controller.mainloop()
         
     def mainloop(self):
-        """
-        docstring
-        """
+        '''
+        Initializes game loop
+        args: None
+        return: None
+        '''
         self.time_ms = 0
         running = True
         while running: 
@@ -94,18 +99,22 @@ class Controller:
                     elif event.key == pygame.K_a:
                         self.player.move_left()
                     elif event.key == pygame.K_w:
+                        pygame.key.set_repeat(0)
                         self.player.jumping()
                     elif event.key == pygame.K_s:
                         self.player.down()
-                if not event.type == pygame.KEYDOWN:
-                    self.player.speed_down = 0.5
+                if not self.player.rect.collidelistall(self.coll_list):
+                    self.player.speed_down = 2
                     self.player.falling()
+                elif self.player.rect.collidelistall([plats for plats in self.plat_sprites]):
+                    self.player.speed_side = 1
                     
                 pygame.time.set_timer(self.LAVA_RISE, 150)
                 if event.type == self.LAVA_RISE:
                     self.lava.moving()
                 
                 self.enemy.moving()
+                self.enemy2.moving()
 
                 self.time_ms += 10
                 if self.time_ms % 250 == 0:
@@ -114,6 +123,12 @@ class Controller:
                     self.ball_sprites.add(self.new_ball)
                     self.ball_list.append(self.new_ball)
                     self.ball_sprites.update()
+                
+                '''Collisions'''
+                for self.iter_plats in self.coll_list:
+                    if self.player.rect.colliderect(self.iter_plats):
+                        self.player.speed_down = 0
+                
                 
                 '''Ways to lose'''
                 
@@ -138,8 +153,12 @@ class Controller:
                     self.loser = True
                 if self.player.rect.colliderect(self.goku.rect):
                     self.player.kill()
-                    self.loser = True    
+                    self.loser = True 
+                if self.player.rect.collideobjects([self.enemy.rect, self.enemy2.rect]):
+                    self.player.kill()
+                    self.loser = True   
                     
+                    ''' Ways to win'''
                 if self.player.rect.colliderect(self.helicopter.rect):
                     self.winning = True
                     
