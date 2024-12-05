@@ -1,5 +1,4 @@
 import pygame
-from src.shoot import Shoot
 
 class Cannon(pygame.sprite.Sprite):
     def __init__(self):
@@ -13,5 +12,5 @@ class Cannon(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
         self.rect.center = [25, 250]          
-        self.shoot = Shoot() 
+        
         

@@ -92,7 +92,6 @@ class Controller:
         pygame.time.set_timer(self.LAVA_RISE, 200)
         pygame.time.set_timer(self.BALL_SHOT, 2000)
         while running: 
-            #1. Handle events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -130,9 +129,9 @@ class Controller:
                 '''Score'''
                 self.score = 100000 - pygame.time.get_ticks()
                 if self.score > 0 and self.loser == False:
-                    with open("score.txt", "w") as f:
+                    with open("etc/score.txt", "w") as f:
                         f.write(str(self.score))
-                    with open("score.txt", "r") as f:
+                    with open("etc/score.txt", "r") as f:
                         self.cur_score = f.readline()
                     self.text_font = pygame.font.SysFont("Times New Roman", 30)
                     self.text = self.text_font.render(f"Current Score: {self.cur_score}", True, (255, 255, 255))
