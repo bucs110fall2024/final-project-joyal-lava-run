@@ -3,7 +3,7 @@ from src.player import Player
 from src.enemies import Enemies
 from src.platforms import Platforms
 from src.lava import Lava
-from src.goku import Goku
+from src.cannon import Cannon
 from src.shoot import Shoot
 from src.helicopter import Helicopter
 from src.collision_plat import Collision_Plat
@@ -34,7 +34,7 @@ class Controller:
         self.enemy = Enemies()
         self.enemy2 = Enemies(y = 195)
         self.lava = Lava()
-        self.goku = Goku()
+        self.goku = Cannon()
         self.shoot = Shoot()
         self.helicopter = Helicopter()
         self.winner = Winner()
@@ -113,8 +113,6 @@ class Controller:
                 if not self.player.rect.collidelistall(self.coll_list_top):
                     self.player.speed_down = 1
                     self.player.falling()
-                elif self.player.rect.collidelistall([plats for plats in self.plat_sprites]):
-                    pass
                                         
                 if event.type == self.LAVA_RISE:
                     self.lava.moving()
@@ -127,6 +125,22 @@ class Controller:
                 
                 self.enemy.moving()
                 self.enemy2.moving()
+                
+                
+                '''Score'''
+                self.score = 100000 - pygame.time.get_ticks()
+                if self.score > 0 and self.loser == False:
+                    with open("score.txt", "w") as f:
+                        f.write(str(self.score))
+                    with open("score.txt", "r") as f:
+                        self.cur_score = f.readline()
+                    self.text_font = pygame.font.SysFont("Times New Roman", 30)
+                    self.text = self.text_font.render(f"Current Score: {self.cur_score}", True, (255, 255, 255))
+                    self.window.blit(self.text, (self.width / 2 - 130, 30))
+                if self.score == 0 or self.loser == True: 
+                    self.text = self.text_font.render("Current Score: 0", True, (255, 255, 255))
+                    self.window.blit(self.text, (self.width / 2 - 120, 30))
+                    
                 
                 '''Collisions'''
                 for self.iter_plats in self.coll_list_top:
@@ -145,6 +159,7 @@ class Controller:
                 for self.iter_plats in self.coll_list_bottom:
                     if self.player.rect.colliderect(self.iter_plats):
                         self.player.rect.y += 5
+                        
                         
                 '''Ways to lose'''
                 if self.player.rect.right > 1000 or self.player.rect.left < 0:
@@ -173,6 +188,7 @@ class Controller:
                     self.player.kill()
                     self.loser = True   
                     
+                    
                     ''' Ways to win'''
                 if self.player.rect.colliderect(self.helicopter.rect):
                     self.winning = True
@@ -185,16 +201,16 @@ class Controller:
                     self.sprites.add(self.game_over)
                     pygame.time.set_timer(self.LAVA_RISE, 25)
                     
-            #4. Display next frame
+
             pygame.display.flip()
             self.sprites.update()
-            self.window.blit(self.background, (0, 0))          # Puts it onto screen                  
+            self.window.blit(self.background, (0, 0))                          
             self.plat_sprites.draw(self.window)
             for self.iter_plats in self.coll_list_top:
                 pygame.draw.rect(self.window, (0, 0, 255), self.iter_plats)
             for self.iter_plats in self.coll_list_bottom:
                 pygame.draw.rect(self.window, (0, 0, 255), self.iter_plats)
-            self.sprites.draw(self.window)                     # Draws the sprites onto window
+            self.sprites.draw(self.window)                     
             self.clock.tick(60)
             
         pygame.quit()

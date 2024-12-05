@@ -9,7 +9,7 @@ class Enemies(pygame.sprite.Sprite):
         return: None
         '''
         super().__init__()
-        self.image = pygame.image.load("assets/enemies.png")   
+        self.image = pygame.image.load("assets/enemy.png")   
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
         self.x = 800

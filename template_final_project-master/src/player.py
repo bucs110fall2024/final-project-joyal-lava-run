@@ -13,7 +13,6 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load("assets/peter_griffin.png")   # Puts image on screen (dont reuse variable names)
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
-        self.rect = self.rect.scale_by(1, 1)
         self.rect.center = [200, 620]          # Centers it at [200, 660]
         self.speed_side = 10
         self.speed_down = 3
